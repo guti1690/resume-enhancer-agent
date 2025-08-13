@@ -1,16 +1,16 @@
-analysis_task:
+analysis:
   description: >
-    Conduct a thorough analysis about the {resume}. Focus on:
+    Conduct a thorough analysis about the {resume}. Today date is {today} Focus on:
       - STAR methodology to show better your skills and experiences
       - Suggest improvements to the descriptions based on STAR methodology
       - Mark the information that needs to be double-checked for accuracy and clarity
       - Improve resume suggesting any relevant information
   expected_output: >
-    A list with 10 bullet points of the most relevant information to improve the {resume}.
-  agent: linkedin_recruiter
+    A list with 10 bullet points of the most relevant information to improve the resume.
+  agent: resume_analyzer
   output_file: "output/analysis.md"
 
-resume_enhancer_task:
+enhancer:
   description: >
     Analyze the analysis findings and rewrite the {resume} to improve it.
     The resume should:
@@ -18,7 +18,7 @@ resume_enhancer_task:
       - Be well structured and easy to read
       - Provide STAR descriptions to show your skills and experiences.
       - Ensure the STAR descriptions are concise and clear.
-      - STAR description should be written in a single paragraph/sentence.
+      - STAR description should be written in a single paragraph or sentence.
   expected_output: >
     A rewritten resume based on the analysis findings. The structure of the resume should include:
       - Personal information
@@ -31,7 +31,75 @@ resume_enhancer_task:
       - Certifications
       - Projects
       - Achievements
+      - Feedback
+    Also the resume should have:
+      - STAR description only have real data, avoid adding fake data or not present in the
+      resume. If no data is available, provide a placeholder, e.g. "N/A", Y%, X.
+      - Shows next to the information that needs to be double-checked for accuracy and clarity between
+      parentheses. Example: Increased in CVR by 10% (check)
+      - Feedback about the resume, positive or negative, based on the analysis findings
   output_file: "output/resume.md"
   context:
-    - analysis_task
-  agent: resume_enhancer
+    - analysis
+  agent: resume_writer
+
+# create_feedback:
+#   description: >
+#     Build a JSON object from the resume enhancer analysis.
+#     The JSON object should:
+#       - Include all the information from the resume enhancement analysis
+#       - Be well structured and easy to read
+#       - Be valid JSON
+#       - Be formatted in a way that is easy to parse and manipulate
+#       - Be able to be used to generate the resume
+#       - Show properly the information that needs to be double-checked `(check)`
+#       - Feedback about the resume, positive or negative, based only on the findings of the analysis task
+#       - Feedback should tell if it's positive or negative, have a category and proper feedback
+#       details, based only on the analysis task
+#       - Only use the analysis task context to generate the feedback. Do not use any other information.
+#   expected_output: >
+#     A JSON object representing the resume data.
+#   output_file: "output/json.json"
+#   context:
+#     - analysis
+#     - enhancer
+#   agent: json_builder
+
+gather_feedback:
+  description: >
+    Gather feedback about the resume based on the analysis task.
+    The feedback should:
+      - Be positive or negative
+      - Have a category
+      - Provide proper feedback details
+      - Only use the analysis task context to generate the feedback. Do not use any other information.
+  expected_output: >
+    A JSON object representing the feedback about the resume.
+  output_file: "output/feedback.json"
+  context:
+    - analysis
+  agent: json_builder
+
+build_json:
+  description: >
+    Build a JSON object from the resume enhancer analysis. You also build a feedback property in the
+    JSON object based on the gather_feedback task.
+    The JSON object should contain from the analysis task:
+      - Include all the information from the resume enhancement analysis
+      - Be well structured and easy to read
+      - Be valid JSON
+      - Be formatted in a way that is easy to parse and manipulate
+      - Be able to be used to generate the resume
+      - Show properly the information that needs to be double-checked `(check)`
+    The JSON object should also contain from the gather_feedback task:
+      - Feedback about the resume, positive or negative, based only on the gather_feedback task
+      - Feedback should tell if it's positive or negative, have a category and proper feedback
+      details, based only on the gather_feedback task
+      - Only use the gather_feedback task context to generate the feedback. Do not use any other information.
+  expected_output: >
+    A JSON object representing the resume data.
+  output_file: "output/json.json"
+  context:
+    - enhancer
+    - gather_feedback
+  agent: json_builder
