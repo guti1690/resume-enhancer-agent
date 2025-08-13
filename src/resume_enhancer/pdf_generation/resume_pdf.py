@@ -5,7 +5,7 @@ import fpdf
 from fpdf.enums import XPos, YPos
 
 
-class PDF(fpdf.FPDF):
+class ResumePDF(fpdf.FPDF):
     """
     A custom PDF class for generating a Harvard-style resume.
     """
@@ -313,7 +313,7 @@ def create_resume_pdf(resume_data, output_filename="resume.pdf", output_buffer=F
         output_buffer (bool): If True, return PDF as BytesIO buffer instead of saving to file.
     """
     # Create a new PDF document
-    pdf = PDF()
+    pdf = ResumePDF()
     pdf.add_page()
 
     # Parse personal information
