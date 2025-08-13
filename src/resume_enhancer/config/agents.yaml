@@ -24,20 +24,6 @@ resume_writer:
     communicating those insights through well crafted resumes.
   llm: openrouter/openai/gpt-oss-20b:free
 
-# feedback_builder:
-#   role: >
-#     Expert JSON builder
-#   goal: >
-#     Build a JSON object from the resume_writer data.
-#     The JSON object should:
-#       - Include all the information from the the resume_writer data
-#       - Be well structured and easy to read
-#       - Be optimized for efficient data retrieval and manipulation
-#   backstory: >
-#     You're a skilled developer with a background in software development. You have a
-#     talent for building JSON objects from resume data, then optimizing them for efficient data retrieval and manipulation.
-#   llm: openrouter/deepseek/deepseek-r1-0528:free
-
 json_builder:
   role: >
     Expert JSON builder

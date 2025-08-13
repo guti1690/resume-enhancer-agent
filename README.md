@@ -42,7 +42,7 @@ The agents work together through a sequential task pipeline:
 1. Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/guti1690/resume-enhancer-agent.git
 cd resume-enhancer-agent
 ```
 
