@@ -68,7 +68,7 @@ You'll need to configure API keys for the LLM providers used:
 ### Installation on another project
 
 ```bash
-uv add "resume_enhancer_agent @ git+https://github.com/guti1690/resume-enhancer-agent"
+uv add "git+https://github.com/guti1690/resume-enhancer-agent"
 ```
 
 ### Programmatic Usage
