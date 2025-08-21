@@ -36,4 +36,4 @@ json_builder:
   backstory: >
     You're a skilled developer with a background in software development. You have a
     talent for building JSON objects from resume data, then optimizing them for efficient data retrieval and manipulation.
-  llm: openrouter/meta-llama/llama-3.1-70b-instruct
+  llm: openrouter/openai/gpt-oss-20b:free
